@@ -1,1 +1,20 @@
-<%= @data %>
+<h1 class="display-5">Valor UF</h1>
+<div class="col-md-6">
+  <%= form_for :uf, url: "indicator/get_uf", class: "form-inline" do |form| %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= form.label :from, 'Desde', class: "form-check-label" %>
+        <%= form.date_field :from, id: :from_date, min: "1000-01-01", max: "3000-12-31", class: "form-control mb-2 mr-sm-2" %>
+      </div>
+      <div class="col-md-6">
+        <%= form.label :to, 'Hasta', class: "form-check-label"%>
+        <%= form.date_field :to, id: :to_date, min: "1000-01-01", max: "3000-12-31", class: "form-control mb-2 mr-sm-2" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <%= form.submit "Buscar", class: "btn btn-success mb-2" %>
+      </div>
+    </div>
+  <% end %>
+</div>
