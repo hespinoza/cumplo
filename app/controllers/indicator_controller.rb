@@ -15,12 +15,15 @@ class IndicatorController < ApplicationController
     array_data = data.map{|x| [x['Fecha'],x['Valor']]}
     @final_data = array_data.map {|date,value| [date,value] if Date.parse(date) >= from_date && Date.parse(date) <= to_date}.compact
     sum = 0.0
-
+    selected_values = []
     @final_data.each do |date,value|
-      sum += value.delete('.').split(',').join('.').to_f
+      num_value = value.delete('.').split(',').join('.').to_f
+      sum += num_value
+      selected_values << num_value
     end
     @prom = (sum / @final_data.count).round(2)
-
+    @max_value = selected_values.max
+    @min_value = selected_values.min
     render :template => "indicator/index"
   end
 end
