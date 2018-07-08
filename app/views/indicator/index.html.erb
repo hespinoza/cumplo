@@ -1,13 +1,17 @@
-<h1 class="display-5">Valor UF</h1>
+<h1 class="display-5">Indicadores Financieros</h1>
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-8">
     <%= form_for :uf, url: indicator_get_uf_path, class: "form-inline" do |form| %>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-2">
+          <%= form.label :indicator, 'Indicador', class: "form-check-label" %>
+          <%= form.select :indicator, options_for_select([['UF', 'uf'], ['Dólar', 'dolar']], @indicator_value), {}, { class: "custom-select form-control mb-2 mr-sm-2" } %>
+        </div>
+        <div class="col-md-5">
           <%= form.label :from, 'Desde', class: "form-check-label" %>
           <%= form.date_field :from, id: :from_date, min: "1000-01-01", max: "3000-12-31", class: "form-control mb-2 mr-sm-2", value: @from_value %>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
           <%= form.label :to, 'Hasta', class: "form-check-label"%>
           <%= form.date_field :to, id: :to_date, min: "1000-01-01", max: "3000-12-31", class: "form-control mb-2 mr-sm-2", value: @to_value %>
         </div>
@@ -20,7 +24,7 @@
     <% end %>
   </div>
   <% if @final_data %>
-    <div class="col-md-6">
+    <div class="col-md-4">
       <p><b>Promedio:</b> $<%= @average %></p>
       <p><b>Valor Máximo:</b> $<%= @max_value %></p>
       <p><b>Valor Mínimo:</b> $<%= @min_value %></p>

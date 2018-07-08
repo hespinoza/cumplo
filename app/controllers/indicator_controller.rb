@@ -10,8 +10,9 @@ class IndicatorController < ApplicationController
     to = (params[:uf][:to].to_s.split('-'))
     from_date = params[:uf][:from] == '' ? Date.today : Date.parse(params[:uf][:from])
     to_date = params[:uf][:to] == '' ? Date.today : Date.parse(params[:uf][:to])
+    array_name = params[:uf][:indicator] == 'uf' ? 'UFs' : 'Dolares'
 
-    data = call_api("https://api.sbif.cl/api-sbifv3/recursos_api/uf/periodo/#{from[0]}/#{from[1]}/#{to[0]}/#{to[1]}")['UFs']
+    data = call_api("https://api.sbif.cl/api-sbifv3/recursos_api/#{params[:uf][:indicator]}/periodo/#{from[0]}/#{from[1]}/#{to[0]}/#{to[1]}")[array_name]
 
     array_data = data.map{|x| [x['Fecha'],x['Valor']]}
     @final_data = array_data.map {|date,value| [date,(value.delete('.').split(',').join('.').to_f)] if Date.parse(date) >= from_date && Date.parse(date) <= to_date}.compact
@@ -29,6 +30,7 @@ class IndicatorController < ApplicationController
     @min_value = selected_values.min
     @from_value = params[:uf][:from] == '' ? Date.today.to_s : params[:uf][:from]
     @to_value = params[:uf][:to] == '' ? Date.today.to_s : params[:uf][:to]
+    @indicator_value = params[:uf][:indicator] == '' ? 'uf' : params[:uf][:indicator]
 
     render :template => "indicator/index"
   end
