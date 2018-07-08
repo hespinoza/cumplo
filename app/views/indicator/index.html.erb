@@ -29,7 +29,10 @@
 </div>
 
 <% if @final_data %>
-  <div>
+  <div class="row">
+    <%= line_chart @final_data, min: (@min_value - 5), max: (@max_value + 5) %>
+  </div>
+  <div class="row">
     <table class="table table-hover table-bordered table-dark">
       <thead>
       <tr>
