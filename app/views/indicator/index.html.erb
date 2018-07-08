@@ -1,6 +1,6 @@
 <h1 class="display-5">Valor UF</h1>
 <div class="col-md-6">
-  <%= form_for :uf, url: "indicator/get_uf", class: "form-inline" do |form| %>
+  <%= form_for :uf, url: indicator_get_uf_path, class: "form-inline" do |form| %>
     <div class="row">
       <div class="col-md-6">
         <%= form.label :from, 'Desde', class: "form-check-label" %>
@@ -18,3 +18,24 @@
     </div>
   <% end %>
 </div>
+<% if @final_data %>
+  <div>
+
+    <table class="table table-hover table-bordered table-dark">
+      <thead>
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Valor</th>
+      </tr>
+      </thead>
+      <tbody>
+    <% @final_data.each do |data| %>
+      <tr>
+        <td><%= data[0] %></td>
+        <td><%= data[1] %></td>
+      </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
