@@ -6,23 +6,20 @@ class IndicatorController < ApplicationController
   end
 
   def get_uf
-    from = (params[:uf][:from].to_s.split('-'))
-    to = (params[:uf][:to].to_s.split('-'))
-    from_date = params[:uf][:from] == '' ? Date.today : Date.parse(params[:uf][:from])
-    to_date = params[:uf][:to] == '' ? Date.today : Date.parse(params[:uf][:to])
+    from = params[:uf][:from] == '' ? Date.today : Date.parse(params[:uf][:from])
+    to = params[:uf][:to] == '' ? Date.today : Date.parse(params[:uf][:to])
     array_name = params[:uf][:indicator] == 'uf' ? 'UFs' : 'Dolares'
 
-    data = call_api("https://api.sbif.cl/api-sbifv3/recursos_api/#{params[:uf][:indicator]}/periodo/#{from[0]}/#{from[1]}/#{to[0]}/#{to[1]}")[array_name]
+    data = call_api("https://api.sbif.cl/api-sbifv3/recursos_api/#{params[:uf][:indicator]}/periodo/#{from.year}/#{from.month}/#{to.year}/#{to.month}")[array_name]
 
     array_data = data.map{|x| [x['Fecha'],x['Valor']]}
-    @final_data = array_data.map {|date,value| [date,(value.delete('.').split(',').join('.').to_f)] if Date.parse(date) >= from_date && Date.parse(date) <= to_date}.compact
+    @final_data = array_data.map {|date,value| [date,(value.delete('.').split(',').join('.').to_f)] if Date.parse(date) >= from && Date.parse(date) <= to}.compact
     sum = 0.0
     selected_values = []
 
     @final_data.each do |date,value|
-      num_value = value
-      sum += num_value
-      selected_values << num_value
+      sum += value
+      selected_values << value
     end
 
     @average = (sum / @final_data.count).round(2)
