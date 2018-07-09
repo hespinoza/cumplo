@@ -2,7 +2,6 @@ class IndicatorController < ApplicationController
   require 'date'
 
   def index
-
   end
 
   def get_uf

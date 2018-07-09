@@ -1,0 +1,50 @@
+<h1 class="display-5">Tasa máxima convencional</h1>
+<div class="row">
+  <div class="col-md-8">
+    <%= form_for :tmc, url: tmc_get_tmc_path, class: "form-inline" do |form| %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= form.label :from, 'Desde', class: "form-check-label" %>
+          <%= form.date_field :from, id: :from_date, min: "1000-01-01", max: "3000-12-31", class: "form-control mb-2 mr-sm-2", value: @from_value %>
+        </div>
+        <div class="col-md-6">
+          <%= form.label :to, 'Hasta', class: "form-check-label"%>
+          <%= form.date_field :to, id: :to_date, min: "1000-01-01", max: (Date.today).to_s, class: "form-control mb-2 mr-sm-2", value: @to_value %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <%= form.submit "Buscar", class: "btn btn-success mb-2" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @final_data %>
+  <div class="row">
+    <%= line_chart @chart_data.map { |goal|
+      {name: goal[:name], data: goal[:data]}
+    }, height: "500px" %>
+  </div>
+  <div class="row">
+    <table class="table table-hover table-bordered table-dark">
+      <thead>
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Tipo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @final_data.each do |data| %>
+        <tr>
+          <td><%= data[0] %></td>
+          <td><%= data[1] %></td>
+          <td><%= data[2] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
