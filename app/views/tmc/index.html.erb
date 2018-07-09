@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<% if @final_data %>
+<% if @maped_data %>
   <div class="row">
     <%= line_chart @chart_data.map { |goal|
       {name: goal[:name], data: goal[:data]}
@@ -37,7 +37,7 @@
       </tr>
       </thead>
       <tbody>
-      <% @final_data.each do |data| %>
+      <% @maped_data.each do |data| %>
         <tr>
           <td><%= data[0] %></td>
           <td><%= data[1] %></td>

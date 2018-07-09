@@ -8,10 +8,10 @@ class TmcController < ApplicationController
     from = params[:tmc][:from] == '' ? Date.today : Date.parse(params[:tmc][:from])
     to = params[:tmc][:to] == '' ? Date.today : Date.parse(params[:tmc][:to])
 
-    data = call_api("https://api.sbif.cl/api-sbifv3/recursos_api/tmc/periodo/#{from.year}/#{from.month}/#{to.year}/#{to.month}")['TMCs']
+    data = call_api('tmc', from.year, from.month, to.year, to.month, 'TMCs')
 
     array_data = data.map{|x| [x['Fecha'],x['Valor'],x['Tipo']]}
-    @final_data = array_data.map {|date,value,type| [date,(value.to_f),type] if Date.parse(date) >= from && Date.parse(date) <= to}.compact
+    @maped_data = array_data.map {|date,value,type| [date,(value.to_f),type] if Date.parse(date) >= from && Date.parse(date) <= to}.compact
 
     @chart_data = (data.group_by{ |x| x['Tipo'] }).map{|v,y| {name: v, data: y.map{|z| {z['Fecha'] => z['Valor']}}.reduce(&:merge)} }
 
